@@ -1,16 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
+import InfoPanel from './Components/InfoPanel';
 
 //Import Components
-import Header from './Components/Header';
-import MainGrid from './Components/MainGrid';
+import NavBar from './Components/NavBar';
 
 function App() {
+  
+ 
   return (
-    <>
-      <Header/>
-      <MainGrid/>
-    </>
+    <div>
+      <NavBar/>
+      <InfoPanel/>
+    </div>
   );
 }
 
