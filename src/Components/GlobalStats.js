@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AllCountries() {
-  const [globalData, setGlobalData] = useState([{}]);
+export default function GlobalStats() {
+  const [globalData, setGlobalData] = useState({});
   
   useEffect( () => {
       async function getData() {
-        const response = await fetch('https://corona.lmao.ninja/v2/countries?yesterday&sort');
+        const response = await fetch('https://corona.lmao.ninja/v2/all?yesterday');
         let data = await response.json();
-   
-        setGlobalData(Object.values(data));
+        delete data.source;
+        setGlobalData(data);
         console.log(data);
       }
       getData();
@@ -39,14 +40,14 @@ export default function AllCountries() {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {Object.keys(globalData[0]).map((key, ind) => {
+        {(Object.keys(globalData).slice(1, 11)).map((key, ind) => {
           return (
             <Grid item xs={12} sm={4} key ={ind}>
               <Paper 
                 className={classes.paper} 
                 elevation={3}>
                   <h3 className={classes.title}>{key.replace(/([A-Z])/g, ' $1').trim()}</h3>
-                  <h3>{globalData[key]}</h3>
+                  <h3><NumberFormat value={globalData[key]} className="foo" displayType={'text'} thousandSeparator={true}/></h3>
               </Paper>
             </Grid>
           )
